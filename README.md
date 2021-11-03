@@ -6,16 +6,7 @@ A graphical presentation of the algorith can be found in link:
 <br>
 Graph is read from an input file created by RandomGraph generator by S.Pettie and V.Ramachandran [3].
 <br>
-Finding shortest path distance for each node occurs in parallel, by using the MPI Standard.
-<br>
-<br>
-Execution command:
-<br>
-mpiexec -np {number_of_cores} {executable} {d_step} {input_file} {output_file}
-<br>
-Execution example:
-<br>
-![terminal](https://user-images.githubusercontent.com/40597439/140077313-6fda7923-57e2-457d-b09e-bbbba5cf2009.png)
+Two implementations are included, one executing the algorithm in serial, and one using the MPI Standard.
 <br>
 <br>
 References:
