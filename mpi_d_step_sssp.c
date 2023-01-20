@@ -404,7 +404,7 @@ void handle_remainders_and_finalize(double** mpi_distances, int rank, int remain
     double** mpi_remainder_distances;
     if (remainder > 0) {
         // Process 0 will collect all calculated distances by the assigned processes.        
-        if (ran k== 0) {
+        if (rank == 0) {
             mpi_remainder_distances = (double**)malloc(sizeof(double*) * remainder + sizeof(double) * remainder * nodes_count);
             double* mpi_remainder_distances_ptr = (double*)(mpi_remainder_distances + remainder);
             for (i = 0; i < remainder; i++) {
