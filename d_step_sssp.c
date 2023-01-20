@@ -105,6 +105,10 @@ struct bucket find_next_bucket() {
 struct bucket retrieve_bucket(int d) {
     struct bucket b;
     b.delta = (int*)malloc(sizeof(int));
+    if (b.delta == NULL) {
+        printf("Error: malloc for b.delta failed.\n");
+        exit(1);
+    }
     b.delta[0] = -1;
     for (int i= 0; i < nodes_count; i++) {
         if (buckets[i].delta[0] == d) {
@@ -183,6 +187,10 @@ void initialize_matrix() {
     double w;
 
     matrix = (double**)malloc(sizeof(double*) * nodes_count + sizeof(double) * nodes_count * nodes_count);
+    if (matrix == NULL) {
+        printf("Error: malloc for matrix failed.\n");
+        exit(1);
+    }
     double* ptr = (double*)(matrix + nodes_count);
     for(i = 0; i < nodes_count; i++) {
         matrix[i] = (ptr + nodes_count * i);
@@ -204,16 +212,48 @@ void initialize_matrix() {
 // This function initializes all arrays used by the program.
 void initialize_structures() {    
     buckets = (struct bucket*)malloc(nodes_count * sizeof( struct bucket));
+    if (buckets == NULL) {
+        printf("Error: malloc for buckets failed.\n");
+        exit(1);
+    }
     distances = (double**)malloc(sizeof(double*) * nodes_count + sizeof(double) * nodes_count * nodes_count);
+    if (distances == NULL) {
+        printf("Error: malloc for distances failed.\n");
+        exit(1);
+    }
     double* ptr = (double*)(distances + nodes_count);
     heavy_nodes = (int*)malloc(nodes_count * sizeof(int));
+    if (heavy_nodes == NULL) {
+        printf("Error: malloc for heavy_nodes failed.\n");
+        exit(1);
+    }
     light_nodes = (int*)malloc(nodes_count * sizeof(int));
+    if (light_nodes == NULL) {
+        printf("Error: malloc for light_nodes failed.\n");
+        exit(1);
+    }
     visited_nodes = (int*)malloc(nodes_count * sizeof(int));
+    if (visited_nodes == NULL) {
+        printf("Error: malloc for visited_nodes failed.\n");
+        exit(1);
+    }
     updated_nodes = (int*)malloc(nodes_count * sizeof(int));
+    if (updated_nodes == NULL) {
+        printf("Error: malloc for updated_nodes failed.\n");
+        exit(1);
+    }
     for (int i = 0; i < nodes_count; i++) {
         buckets[i].delta = (int*)malloc(sizeof(int));
+        if (buckets[i].delta == NULL) {
+            printf("Error: malloc for buckets[%d].delta failed.\n", i);
+            exit(1);
+        }
         buckets[i].delta[0] = -1;
         buckets[i].nodes = (int*)malloc(nodes_count * sizeof(int));
+        if (buckets[i].nodes == NULL) {
+            printf("Error: malloc for buckets[%d].nodes failed.\n", i);
+            exit(1);
+        }
         distances[i] = (ptr + nodes_count * i);
         for (int j = 0; j < nodes_count; j++) {
             buckets[i].nodes[j] = -1;
