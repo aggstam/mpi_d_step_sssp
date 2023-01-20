@@ -9,6 +9,71 @@ Graph is read from an input file created by RandomGraph generator by S.Pettie an
 <br>
 Two implementations are included, one executing the algorithm in serial, and one using the MPI Standard.
 <br>
+MPI implementation requires *openmpi* package to be installed.
+
+# Usage
+Both version can be invocted via the Makefile, or by directly compiling and executing.
+
+## Make usage
+### Normal code
+```
+% make
+```
+To configure D step value:
+```
+% make DSTEP={d_step}
+```
+To include a different input file:
+```
+% make FILE={file_path}
+```
+To configure a different output file:
+```
+% make OUTPUT={file_path}
+```
+
+### MPI code
+```
+% make mpi
+```
+To configure different how many processes to use:
+```
+% make mpi PROCESSES={processes}
+```
+To configure D step value:
+```
+% make mpi DSTEP={d_step}
+```
+To include a different input file:
+```
+% make mpi FILE={file_path}
+```
+To configure a different output file:
+```
+% make mpi OUTPUT={file_path}
+```
+
+## Direct usage
+### Normal code
+Compilation:
+```
+% gcc -o d_step_sssp d_step_sssp.c
+```
+Execution:
+```
+% ./d_step_sssp {d_step} {input_file} {output_file}
+```
+
+### MPI code
+Compilation:
+```
+% mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
+```
+Execution:
+```
+% mpiexec -np {processes} ./mpi_d_step_sssp {d_step} {input_file} {output_file}
+```
+
 <br>
 References:
 <br>
