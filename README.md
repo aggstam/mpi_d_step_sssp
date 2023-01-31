@@ -11,11 +11,11 @@ Two implementations are included, one executing the algorithm in serial, and one
 <br>
 MPI implementation requires *openmpi* package to be installed.
 
-# Usage
+## Usage
 Both version can be invocted via the Makefile, or by directly compiling and executing.
 
-## Make usage
-### Normal code
+### Make usage
+#### Normal code
 ```
 % make
 ```
@@ -32,7 +32,7 @@ To configure a different output file:
 % make OUTPUT={file_path}
 ```
 
-### MPI code
+#### MPI code
 ```
 % make mpi
 ```
@@ -53,8 +53,8 @@ To configure a different output file:
 % make mpi OUTPUT={file_path}
 ```
 
-## Direct usage
-### Normal code
+### Direct usage
+#### Normal code
 Compilation:
 ```
 % gcc -o d_step_sssp d_step_sssp.c
@@ -64,7 +64,7 @@ Execution:
 % ./d_step_sssp {d_step} {input_file} {output_file}
 ```
 
-### MPI code
+#### MPI code
 Compilation:
 ```
 % mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
@@ -74,9 +74,7 @@ Execution:
 % mpiexec -np {processes} ./mpi_d_step_sssp {d_step} {input_file} {output_file}
 ```
 
-<br>
-References:
-<br>
+## References
 [1] Ulrich Meyer and Peter Sanders. Δ-stepping: a parallelizable shortest path algorithm. Journal of
 Algorithms 49.1 (2003): 114-152.
 <br>
