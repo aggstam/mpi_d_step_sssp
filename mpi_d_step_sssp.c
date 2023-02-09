@@ -18,29 +18,30 @@
 
 // Bucket structure
 struct bucket {
-    int* delta;
-    int* nodes;
+    int *delta;
+    int *nodes;
 };
 
 double d_step;          // D value used.
-FILE* fin;              // Input file.
-FILE* fout;             // Output file.
+FILE *fin;              // Input file.
+FILE *fout;             // Output file.
 int nodes_count;        // Graph nodes count.
-double** matrix;        // Graph nodes matrix.
+double **matrix;        // Graph nodes matrix.
 struct bucket *buckets; // Buckets array.
-double** distances;     // Shortest path distance from each node to all other nodes.
-int* light_nodes;       // Light nodes array.
-int* heavy_nodes;       // Heavy nodes array.
-int* visited_nodes;     // Visited nodes array, used to prevent loops.
-int* updated_nodes;     // Updated nodes array, used to also update visited neighbors.
+double **distances;     // Shortest path distance from each node to all other nodes.
+int *light_nodes;       // Light nodes array.
+int *heavy_nodes;       // Heavy nodes array.
+int *visited_nodes;     // Visited nodes array, used to prevent loops.
+int *updated_nodes;     // Updated nodes array, used to also update visited neighbors.
 int source_node;        // Source node to find distances.
 clock_t t1, t2;         // Variables for measuring time spent.
 
 // This function inserts a given value at the end of a given array.
 // Inputs:
-//      int* array: The array.
+//      int *array: The array.
 //      int node: The value to insert.
-void push_node(int* array, int node) {
+void push_node(int *array, int node)
+{
     int pos = 0;    
     int item = array[0];    
     while (item != node && item != -1) {
@@ -52,8 +53,9 @@ void push_node(int* array, int node) {
 
 // This function removes all values of a given array.
 // Inputs:
-//      int* array: The array.
-void empty_array(int* array) {
+//      int *array: The array.
+void empty_array(int *array)
+{
     int pos = 0;    
     int item = array[pos];    
     while (item != -1) {
@@ -65,12 +67,13 @@ void empty_array(int* array) {
 
 // This function checks if a given array contains a given value.
 // Inputs:
-//      int* array: The array.
+//      int *array: The array.
 //      int node: The value to check.
 // Output:
 //      1 --> The array contains the value.
 //      0 --> The array doesn't contains the value.
-int contains(int* array, int node) {
+int contains(int *array, int node)
+{
     int pos = 0;    
     int item = array[pos];    
     while (item != node && item != -1) {
@@ -85,7 +88,8 @@ int contains(int* array, int node) {
 // in case all are empty.
 // Output:
 //      struct bucket --> Returned bucket.
-struct bucket find_next_bucket() {
+struct bucket find_next_bucket()
+{
     for (int i = 0; i < nodes_count; i++) {
         if (buckets[i].nodes[0] == -1) {
             buckets[i].delta[0] = -1;        
@@ -106,9 +110,10 @@ struct bucket find_next_bucket() {
 //      int d: The D value to search.
 // Output:
 //      struct bucket --> Returned bucket.
-struct bucket retrieve_bucket(int d) {
+struct bucket retrieve_bucket(int d)
+{
     struct bucket b;
-    b.delta = (int *)malloc(sizeof(int));
+    b.delta = (int*)malloc(sizeof(int));
     if (b.delta == NULL) {
         printf("Error: b.delta for mult failed.\n");
         exit(1);
@@ -136,9 +141,10 @@ struct bucket retrieve_bucket(int d) {
 // Visited nodes array and relaxes(insert to appropriate bucket) nodes 
 // contained in a given array.
 // Inputs:
-//      int* bucket_nodes: The bucket.
-//      int* relax_nodes: The array to relax.
-void relax_nodes(int* bucket_nodes, int* relax_nodes) {
+//      int *bucket_nodes: The bucket.
+//      int *relax_nodes: The array to relax.
+void relax_nodes(int *bucket_nodes, int *relax_nodes)
+{
     int pos = 0;    
     int item = bucket_nodes[0];
     
@@ -176,7 +182,8 @@ void relax_nodes(int* bucket_nodes, int* relax_nodes) {
 }
 
 // This function resets arrays used by the program.
-void reset_node_structures() {
+void reset_node_structures()
+{
     for (int i = 0; i < nodes_count; i++) {
         heavy_nodes[i] = -1;
         light_nodes[i] = -1;
@@ -186,20 +193,22 @@ void reset_node_structures() {
 }
 
 // This function allocates memory needed for the Graph matrix.
-void allocate_matrix() {
+void allocate_matrix()
+{
     matrix = (double**)malloc(sizeof(double*) * nodes_count + sizeof(double) * nodes_count * nodes_count);
     if (matrix == NULL) {
         printf("Error: malloc for matrix failed.\n");
         exit(1);
     }
-    double* ptr = (double*)(matrix + nodes_count);
+    double *ptr = (double*)(matrix + nodes_count);
     for(int i = 0; i < nodes_count; i++) {
         matrix[i] = (ptr + nodes_count * i);
     }            
 }
 
 // This function initializes the Graph matrix, by reading the input file.
-void initialize_matrix() {
+void initialize_matrix()
+{
     int i, j;
     double w;
 
@@ -208,7 +217,7 @@ void initialize_matrix() {
         printf("Error: malloc for matrix failed.\n");
         exit(1);
     }
-    double* ptr = (double*)(matrix + nodes_count);
+    double *ptr = (double*)(matrix + nodes_count);
     for(i = 0; i < nodes_count; i++) {
         matrix[i] = (ptr + nodes_count * i);
         for (j = 0; j < nodes_count; j++) {
@@ -227,7 +236,8 @@ void initialize_matrix() {
 }
 
 // This function initializes all arrays used by the program.
-void initialize_structures() {    
+void initialize_structures()
+{
     buckets = (struct bucket *)malloc(nodes_count * sizeof( struct bucket));
     if (buckets == NULL) {
         printf("Error: malloc for buckets failed.\n");
@@ -238,7 +248,7 @@ void initialize_structures() {
         printf("Error: malloc for distances failed.\n");
         exit(1);
     }
-    double* ptr = (double*)(distances + nodes_count);
+    double *ptr = (double*)(distances + nodes_count);
     heavy_nodes = (int*)malloc(nodes_count * sizeof(int));
     if (heavy_nodes == NULL) {
         printf("Error: malloc for heavy_nodes failed.\n");
@@ -284,7 +294,8 @@ void initialize_structures() {
 }
 
 // This function frees allocated memory of all arrays used by the program.
-void free_structures() {
+void free_structures()
+{
     free(matrix);
     free(buckets);
     free(distances);
@@ -296,7 +307,8 @@ void free_structures() {
 
 // This function implements the D-Stepping algorithm and finds 
 // the shortest path distances from a source node to all other nodes.
-void d_step_algorithm() {
+void d_step_algorithm()
+{
     int i, j;
 
     // First bucket to use will contain the source node and will
@@ -346,8 +358,9 @@ void d_step_algorithm() {
 
 // Auxiliary function that displays a message in case of wrong input parameters.
 // Inputs:
-//      char* compiled_name: Programms compiled name.
-void syntax_message(char* compiled_name) {
+//      char *compiled_name: Programms compiled name.
+void syntax_message(char *compiled_name)
+{
     printf("Correct syntax:\n");
     printf("%s <d_step> <input-file> <output-file>\n", compiled_name);
     printf("where: \n");
@@ -359,12 +372,13 @@ void syntax_message(char* compiled_name) {
 // This function checks run-time parameters validity and
 // retrieves D-step value, input and output file names.
 // Inputs:
-//      char** argv: The run-time parameters.
+//      char **argv: The run-time parameters.
 // Output:
 //      1 --> Parameters read succussfully.
 //      0 --> Something went wrong.
-int read_parameters(char** argv) {
-    char* d_step_string = argv[1];
+int read_parameters(char **argv)
+{
+    char *d_step_string = argv[1];
     if (d_step_string == NULL) {
         printf("D-step parameter missing.\n");
         syntax_message(argv[0]);
@@ -376,7 +390,7 @@ int read_parameters(char** argv) {
         syntax_message(argv[0]);
         return 0;
     }
-    char* input_filename = argv[2];
+    char *input_filename = argv[2];
     if (input_filename == NULL) {
         printf("Input file parameter missing.\n");
         syntax_message(argv[0]);
@@ -388,7 +402,7 @@ int read_parameters(char** argv) {
         printf("Cannot open input file %s.\n", input_filename);
         return 0;        
     }
-    char* output_filename = argv[3];
+    char *output_filename = argv[3];
     if (output_filename == NULL) {
         printf("Output file parameter missing.\n");
         syntax_message(argv[0]);
@@ -411,10 +425,11 @@ int read_parameters(char** argv) {
 // First line contains the nodes count.
 // Last line contains -1 as EOF char.
 // Inputs:
-//      double** mpi_distances: Calculated distances.
-//      double** mpi_remainder_distances: Calculated distances of remaining nodes(uneven distribution).
+//      double **mpi_distances: Calculated distances.
+//      double **mpi_remainder_distances: Calculated distances of remaining nodes(uneven distribution).
 //      int remainder: Count of remaining nodes(uneven distribution).
-void write_distances_to_file(double** mpi_distances, double** mpi_remainder_distances, int remainder) {
+void write_distances_to_file(double **mpi_distances, double **mpi_remainder_distances, int remainder)
+{
     int i,j;
     int finish = nodes_count-remainder;
     fprintf(fout, "%d\n", nodes_count);
@@ -440,10 +455,11 @@ void write_distances_to_file(double** mpi_distances, double** mpi_remainder_dist
 // P0 collects remaining distances finalizes program by
 // writing all distances to the output file.
 // Inputs:
-//      double** mpi_distances: Calculated distances.
+//      double **mpi_distances: Calculated distances.
 //      int rank: Process rank.
 //      int remainder: Count of remaining nodes(uneven distribution).
-void handle_remainders_and_finalize(double** mpi_distances, int rank, int remainder) {
+void handle_remainders_and_finalize(double **mpi_distances, int rank, int remainder)
+{
     int i;
     double** mpi_remainder_distances;
     if (remainder > 0) {
@@ -454,7 +470,7 @@ void handle_remainders_and_finalize(double** mpi_distances, int rank, int remain
                 printf("Error: malloc for mpi_remainder_distances failed.\n");
                 exit(1);
             }
-            double* mpi_remainder_distances_ptr = (double*)(mpi_remainder_distances + remainder);
+            double *mpi_remainder_distances_ptr = (double*)(mpi_remainder_distances + remainder);
             for (i = 0; i < remainder; i++) {
                 mpi_remainder_distances[i] = (mpi_remainder_distances_ptr + nodes_count * i);        
             }
@@ -465,7 +481,7 @@ void handle_remainders_and_finalize(double** mpi_distances, int rank, int remain
                 MPI_Recv(mpi_remainder_distances[i], nodes_count, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             }
         } else {
-            double* mpi_process_remainder_distances = (double*)malloc(nodes_count * sizeof(double));
+            double *mpi_process_remainder_distances = (double*)malloc(nodes_count * sizeof(double));
             if (mpi_process_remainder_distances == NULL) {
                 printf("Error: malloc for mpi_process_remainder_distances failed.\n");
                 exit(1);
@@ -497,7 +513,8 @@ void handle_remainders_and_finalize(double** mpi_distances, int rank, int remain
 // Inputs:
 //      int rank: Process rank.
 //      int size: Processes size.
-void mpi_d_step(int rank, int size) {
+void mpi_d_step(int rank, int size)
+{
     int i,j;
     int interval =     nodes_count / size; // Each node will process interval nodes.
     int remainder = nodes_count % size; // Remaining nodes will be distributed evenly among process.
@@ -524,12 +541,12 @@ void mpi_d_step(int rank, int size) {
     }
 
     // Process 0 will collect all calculated distances.
-    double** mpi_process_distances = (double**)malloc(sizeof(double*) * interval + sizeof(double) * interval * nodes_count);
+    double **mpi_process_distances = (double**)malloc(sizeof(double*) * interval + sizeof(double) * interval * nodes_count);
     if (mpi_process_distances == NULL) {
         printf("Error: malloc for mpi_process_distances failed.\n");
         exit(1);
     }
-    double* mpi_process_distances_ptr = (double*)(mpi_process_distances + interval);
+    double *mpi_process_distances_ptr = (double*)(mpi_process_distances + interval);
     for (i = 0; i < interval; i++) {
         mpi_process_distances[i] = (mpi_process_distances_ptr + nodes_count * i);
         for (j = 0; j < nodes_count; j++) {
@@ -537,9 +554,9 @@ void mpi_d_step(int rank, int size) {
         }        
     }
     
-    double** mpi_distances;
+    double **mpi_distances;
     if (rank == 0) {
-        mpi_distances = (double **)malloc(sizeof(double *) * (nodes_count-remainder) + sizeof(double) * (nodes_count-remainder) * nodes_count);
+        mpi_distances = (double**)malloc(sizeof(double*) * (nodes_count-remainder) + sizeof(double) * (nodes_count-remainder) * nodes_count);
         if (mpi_distances == NULL) {
             printf("Error: malloc for mpi_distances failed.\n");
             exit(1);
@@ -558,7 +575,8 @@ void mpi_d_step(int rank, int size) {
     handle_remainders_and_finalize(mpi_distances, rank, remainder);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
     int rank,size;
     MPI_Init(&argc,&argv);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
