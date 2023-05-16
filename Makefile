@@ -15,3 +15,5 @@ mpi:
 
 clean:
 	rm -f d_step_sssp mpi_d_step_sssp output
+
+.PHONY: all mpi clean

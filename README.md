@@ -74,6 +74,42 @@ Execution:
 % mpiexec -np {processes} ./mpi_d_step_sssp {d_step} {input_file} {output_file}
 ```
 
+## Execution examples
+### Normal code
+```
+❯ make
+Executing normal code...
+gcc -o d_step_sssp d_step_sssp.c
+./d_step_sssp 0.25 grph_1000 output
+Finding shortest path distances for each node of a Graph using D-Stepping algorithm.
+D-Stepping value: 0.250000
+Graph will be retrieved from input file: grph_1000
+Distances matrix will be written in output file: output
+Nodes count: 1000
+Algorithm started, please wait...
+Algorithm finished!
+Time spend: 15.210633 secs
+Writing distances to output file.
+Program terminates.
+```
+
+### MPI code
+```
+❯ make mpi
+Executing MPI code...
+mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
+mpiexec -np 4 ./mpi_d_step_sssp 0.25 grph_1000 output
+Finding shortest path distances for each node of a Graph using D-Stepping algorithm.
+D-Stepping value: 0.250000
+Graph will be retrieved from input file: grph_1000
+Distances matrix will be written in output file: output
+Nodes count: 1000
+Algorithm started, please wait...
+Algorithm finished!
+Time spend: 3.957982 secs
+Writing distances to output file.
+```
+
 ## References
 [1] Ulrich Meyer and Peter Sanders. Δ-stepping: a parallelizable shortest path algorithm. Journal of
 Algorithms 49.1 (2003): 114-152.
