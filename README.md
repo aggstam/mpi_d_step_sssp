@@ -16,68 +16,68 @@ Both version can be invocted via the Makefile, or by directly compiling and exec
 
 ### Make usage
 #### Normal code
-```
-% make
+```shell
+$ make
 ```
 To configure D step value:
-```
-% make DSTEP={d_step}
+```shell
+$ make DSTEP={d_step}
 ```
 To include a different input file:
-```
-% make FILE={file_path}
+```shell
+$ make FILE={file_path}
 ```
 To configure a different output file:
-```
-% make OUTPUT={file_path}
+```shell
+$ make OUTPUT={file_path}
 ```
 
 #### MPI code
-```
-% make mpi
+```shell
+$ make mpi
 ```
 To configure different how many processes to use:
-```
-% make mpi PROCESSES={processes}
+```shell
+$ make mpi PROCESSES={processes}
 ```
 To configure D step value:
-```
-% make mpi DSTEP={d_step}
+```shell
+$ make mpi DSTEP={d_step}
 ```
 To include a different input file:
-```
-% make mpi FILE={file_path}
+```shell
+$ make mpi FILE={file_path}
 ```
 To configure a different output file:
-```
-% make mpi OUTPUT={file_path}
+```shell
+$ make mpi OUTPUT={file_path}
 ```
 
 ### Direct usage
 #### Normal code
 Compilation:
-```
-% gcc -o d_step_sssp d_step_sssp.c
+```shell
+$ gcc -o d_step_sssp d_step_sssp.c
 ```
 Execution:
-```
-% ./d_step_sssp {d_step} {input_file} {output_file}
+```shell
+$ ./d_step_sssp {d_step} {input_file} {output_file}
 ```
 
 #### MPI code
 Compilation:
-```
-% mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
+```shell
+$ mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
 ```
 Execution:
-```
-% mpiexec -np {processes} ./mpi_d_step_sssp {d_step} {input_file} {output_file}
+```shell
+$ mpiexec -np {processes} ./mpi_d_step_sssp {d_step} {input_file} {output_file}
 ```
 
 ## Execution examples
 ### Normal code
-```
-❯ make
+```shell
+$ make
 Executing normal code...
 gcc -o d_step_sssp d_step_sssp.c
 ./d_step_sssp 0.25 grph_1000 output
@@ -94,8 +94,8 @@ Program terminates.
 ```
 
 ### MPI code
-```
-❯ make mpi
+```shell
+$ make mpi
 Executing MPI code...
 mpicc -lm -o mpi_d_step_sssp mpi_d_step_sssp.c
 mpiexec -np 4 ./mpi_d_step_sssp 0.25 grph_1000 output
